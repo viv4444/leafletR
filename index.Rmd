@@ -1,0 +1,70 @@
+---
+title: "Interactive leaflet maps"
+author: "Vivek Singh"
+date: "11/8/2020"
+output: html_document
+runtime: shiny
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+This R Markdown document is made interactive using Shiny. Unlike the more traditional workflow of creating static reports, you can now create documents that allow your readers to change the assumptions underlying your analysis and see the results immediately. 
+
+To learn more, see [Interactive Documents](http://rmarkdown.rstudio.com/authoring_shiny.html).
+
+```{r}
+library(shiny)
+library(leaflet)
+
+shinyApp(
+ui=fluidPage(
+  titlePanel("My interactive map"),
+  sidebarLayout(sidebarPanel(
+    checkboxInput("box1","My house"),
+    checkboxInput("box2","My college"),
+   
+    submitButton("submit")
+    
+  ),
+  mainPanel(
+    leafletOutput("Mymap")
+    
+        )
+  
+
+  )
+  
+),
+
+
+server=function(input,output){
+  
+  
+    
+
+  
+  output$Mymap<-renderLeaflet({
+    if(input$box1)
+        {leaflet()%>%addTiles()%>%addMarkers(lat=25.5941,lng=85.1376)} 
+        else
+        {leaflet()%>%addTiles()%>%addMarkers(lat=13.3490,lng=74.7856)}
+         
+   
+    
+    
+    
+  })
+  
+  
+  
+}
+
+)
+
+
+
+
+```
+
